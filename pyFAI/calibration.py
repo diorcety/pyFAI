@@ -2328,11 +2328,21 @@ refinement process.
         ax1 = self.fig.add_subplot(2, 2, 3)
         ax1.imshow(self.delta, aspect="auto", interpolation="nearest", origin="bottom")
         ax1.set_title("Difference image")
+        # skip lowest and highest per mille of image values via vmin/vmax
+        sorted_list = self.masked_image.flatten() # explicit copy
+        sorted_list.sort()
+        show_min = sorted_list[int(round(1e-3 * (sorted_list.size - 1)))]
+        show_max = sorted_list[int(round(0.999 * (sorted_list.size - 1)))]
         ax2 = self.fig.add_subplot(2, 2, 1)
-        ax2.imshow(self.masked_image, aspect="auto", interpolation="nearest", origin="bottom")
+        ax2.imshow(self.masked_image, aspect="auto", interpolation="nearest", origin="bottom", vmin=show_min, vmax=show_max)
         ax2.set_title("Raw image")
+        # skip lowest and highest per mille of image values via vmin/vmax
+        sorted_list = self.masked_resynth.flatten() # explicit copy
+        sorted_list.sort()
+        show_min = sorted_list[int(round(1e-3 * (sorted_list.size - 1)))]
+        show_max = sorted_list[int(round(0.999 * (sorted_list.size - 1)))]
         ax3 = self.fig.add_subplot(2, 2, 2)
-        ax3.imshow(self.masked_resynth, aspect="auto", interpolation="nearest", origin="bottom")
+        ax3.imshow(self.masked_resynth, aspect="auto", interpolation="nearest", origin="bottom", vmin=show_min, vmax=show_max)
         ax3.set_title("Rebuild image")
         ax4 = self.fig.add_subplot(2, 2, 4)
         ax4.plot(self.r, self.I)
