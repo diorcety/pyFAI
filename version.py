@@ -76,12 +76,10 @@ version_info = _version_info(MAJOR, MINOR, MICRO, RELEV, SERIAL)
 
 strictversion = version = debianversion = "%d.%d.%d" % version_info[:3]
 if version_info.releaselevel != "final":
-    version += "-%s%s" % version_info[-2:]
-    debianversion += "~adev%i" % version_info[-1] if RELEV == "dev" else "~%s%i" % version_info[-2:]
-    prerel = "a" if RELEASE_LEVEL_VALUE.get(version_info[3], 0) < 10 else "b"
-    if prerel not in "ab":
-        prerel = "a"
-    strictversion += prerel + str(version_info[-1])
+    version += ".%s%s" % version_info[-2:]
+    strictversion += ".%s%s" % version_info[-2:]
+version += "+x"
+strictversion += "+x"
 
 
 def calc_hexversion(major=0, minor=0, micro=0, releaselevel="dev", serial=0):
